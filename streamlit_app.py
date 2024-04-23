@@ -39,9 +39,10 @@ if ingredients_list: # is not null
         st.subheader(fruit_chosen + ': Nutrition Information')
         fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + search_on)
         fv_json = fruityvice_response.json()
-        if fv_json:
-            print(fv_json)
+        try:
             fv_df = st.dataframe(data=fv_json['nutritions'],use_container_width=True)
+        except:
+            fv_df = st.dataframe(data=fv_json['error'],use_container_width=True)
     
     my_insert_stmt = """ insert into smoothies.public.orders(ingredients,name_on_order)
                          values ('""" + ingredients_string + """', '""" + name_on_order + """')"""
